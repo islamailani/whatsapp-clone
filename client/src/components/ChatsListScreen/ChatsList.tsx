@@ -53,6 +53,7 @@ const Style = styled.div`
     font-size: 13px;
   }
 `;
+
 const query = gql`
   query ChatsListQuery {
     chats {
@@ -61,6 +62,7 @@ const query = gql`
   }
   ${fragments.chat}
 `;
+
 export default () => {
   const {
     data: { chats },

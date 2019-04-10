@@ -1,4 +1,4 @@
-schema: ../server/schema/typeDefs.ts
+schema: ../server/schema.ts
 documents:
   - ./src/**/*.tsx
   - ./src/**/*.ts

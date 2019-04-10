@@ -1,18 +1,95 @@
-import Message from './message';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  CreateDateColumn
+} from "typeorm";
+import { Message } from "./Message";
+import { User } from "./User";
+import { Recipient } from "./Recipient";
 
-export interface Chat {
-  id: string
-  name?: string | null
-  picture?: string | null
-  // All members, current and past ones.
-  allTimeMemberIds: string[]
-  // Whoever gets the chat listed. For groups includes past members who still didn't delete the group.
-  listingMemberIds: string[]
-  // Actual members of the group (they are not the only ones who get the group listed). Null for chats.
-  actualGroupMemberIds?: string[] | null
-  adminIds?: string[] | null
-  ownerId?: string | null
-  messages: Message[]
+interface ChatConstructor {
+  createdAt?: Date,
+  name?: string;
+  picture?: string;
+  allTimeMembers?: User[];
+  listingMembers?: User[];
+  actualGroupMembers?: User[];
+  admins?: User[];
+  owner?: User;
+  messages?: Message[];
 }
 
-export default Chat;
+@Entity()
+export class Chat {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @CreateDateColumn({nullable: true})
+  createdAt: Date;
+
+  @Column({nullable: true})
+  name: string;
+
+  @Column({nullable: true})
+  picture: string;
+
+  @ManyToMany(type => User, user => user.allTimeMemberChats, {cascade: ["insert", "update"], eager: false})
+  @JoinTable()
+  allTimeMembers: User[];
+
+  @ManyToMany(type => User, user => user.listingMemberChats, {cascade: ["insert", "update"], eager: false})
+  @JoinTable()
+  listingMembers: User[];
+
+  @ManyToMany(type => User, user => user.actualGroupMemberChats, {cascade: ["insert", "update"], eager: false})
+  @JoinTable()
+  actualGroupMembers?: User[];
+
+  @ManyToMany(type => User, user => user.adminChats, {cascade: ["insert", "update"], eager: false})
+  @JoinTable()
+  admins?: User[];
+
+  @ManyToOne(type => User, user => user.ownerChats, {cascade: ["insert", "update"], eager: false})
+  owner?: User | null;
+
+  @OneToMany(type => Message, message => message.chat, {cascade: ["insert", "update"], eager: true})
+  messages: Message[];
+
+  @OneToMany(type => Recipient, recipient => recipient.chat)
+  recipients: Recipient[];
+
+  constructor({createdAt, name, picture, allTimeMembers, listingMembers, actualGroupMembers, admins, owner, messages}: ChatConstructor = {}) {
+    if (createdAt) {
+      this.createdAt = createdAt;
+    }
+    if (name) {
+      this.name = name;
+    }
+    if (picture) {
+      this.picture = picture;
+    }
+    if (allTimeMembers) {
+      this.allTimeMembers = allTimeMembers;
+    }
+    if (listingMembers) {
+      this.listingMembers = listingMembers;
+    }
+    if (actualGroupMembers) {
+      this.actualGroupMembers = actualGroupMembers;
+    }
+    if (admins) {
+      this.admins = admins;
+    }
+    if (owner) {
+      this.owner = owner;
+    }
+    if (messages) {
+      this.messages = messages;
+    }
+  }
+}

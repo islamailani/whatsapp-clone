@@ -1,5 +1,5 @@
 overwrite: true
-schema: ./schema/typeDefs.ts
+schema: ./schema.ts
 require: ts-node/register/transpile-only
 generates:
   ./types.d.ts:
@@ -8,7 +8,11 @@ generates:
       - typescript-resolvers
     config:
       optionalType: undefined | null
+      contextType: "@graphql-modules/core#ModuleContext"
       mappers:
-        Chat: ./entity/chat#Chat
-        Message: ./entity/message#Message
-        User: ./entity/user#User
+        Chat: ./entity/Chat#Chat
+        Message: ./entity/Message#Message
+        Recipient: ./entity/Recipient#Recipient
+        User: ./entity/User#User
+      scalars:
+        Date: Date
