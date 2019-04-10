@@ -13,7 +13,7 @@ export interface Message {
   content: string
   createdAt: number
   type: MessageType
-  recipients: Recipient[]
+  // recipients: Recipient[]
   holderIds: string[]
 }
 

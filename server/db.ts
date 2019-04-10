@@ -2,6 +2,7 @@ import moment from 'moment';
 import Chat from './entity/chat';
 import Message, { MessageType } from './entity/message';
 import User from './entity/user';
+// import Recipient from './entity/recipient';
 
 const users: User[] = [
   {

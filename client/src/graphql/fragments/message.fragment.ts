@@ -12,22 +12,22 @@ export default gql`
     }
     content
     createdAt
-    recipients {
-      user {
-        id
-      }
-      message {
-        id
-        chat {
-          id
-        }
-      }
-      chat {
-        id
-      }
-      receivedAt
-      readAt
-    }
+#    recipients {
+#      user {
+#        id
+#      }
+#      message {
+#        id
+#        chat {
+#          id
+#        }
+#      }
+#      chat {
+#        id
+#      }
+#      receivedAt
+#      readAt
+#    }
     ownership
   }
 `;
