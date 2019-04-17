@@ -42,15 +42,14 @@ export const AuthModule = new GraphQLModule<IAppModuleConfig>({
       }
     ));
 
-    app.post('/signup',
-      passport.authenticate('basic-signup', {session: false}),
-        (req, res) => res.json(req.user)
-    );
+    // app.post('/signup',
+    //   passport.authenticate('basic-signup', {session: false}),
+    //     (req, res) => res.json(req.user)
+    // );
 
     app.use(passport.authenticate('basic-signin', {session: false}));
 
-    app.post('/signin', (req, res) => res.json(req.user));
-
+    // app.post('/signin', (req, res) => res.json(req.user));
     return {};
   }),
 });

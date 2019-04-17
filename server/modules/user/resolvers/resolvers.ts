@@ -11,23 +11,21 @@ export default {
     users: (obj, args, { injector }) => injector.get(UserProvider).getUsers(),
   },
   Mutation: {
-    updateUser: (obj, {name, picture}, { injector }) => injector.get(UserProvider).updateUser({
-        name: name || '',
-        picture: picture || '',
-      }),
+    updateUser: (obj, { name, picture }, { injector }) => injector.get(UserProvider).updateUser({
+      name: name || '',
+      picture: picture || '',
+    }),
   },
   Subscription: {
     userAdded: {
-      subscribe: withFilter(
-        (root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('userAdded'),
-        (data: { userAdded: User }, variables, { injector }: ModuleContext) => data && injector.get(UserProvider).filterUserAddedOrUpdated(data.userAdded),
-      ),
+      subscribe: withFilter((root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('userAdded'), (data: {
+        userAdded: User;
+      }, variables, { injector }: ModuleContext) => data && injector.get(UserProvider).filterUserAddedOrUpdated(data.userAdded)),
     },
     userUpdated: {
-      subscribe: withFilter(
-        (root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('userUpdated'),
-        (data: { userUpdated: User }, variables, { injector }: ModuleContext) => data && injector.get(UserProvider).filterUserAddedOrUpdated(data.userUpdated)
-      ),
+      subscribe: withFilter((root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('userUpdated'), (data: {
+        userUpdated: User;
+      }, variables, { injector }: ModuleContext) => data && injector.get(UserProvider).filterUserAddedOrUpdated(data.userUpdated)),
     },
   },
-} as IResolvers;
+} as unknown as IResolvers;

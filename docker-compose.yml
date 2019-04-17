@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+      args:
+        PACKAGE_PATH: auth-server
+        WORKING_DIR: /usr/src/
+    expose:
+      - 4003
+    ports:
+      - 4003:4003
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./common.env
+    volumes:
+      - ./auth-server:/usr/src
+    depends_on:
+      - mongo
+    command: ["yarn", "start"]
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "127.0.0.1:27017:27017"

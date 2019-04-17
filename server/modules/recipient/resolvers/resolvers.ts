@@ -26,4 +26,4 @@ export default {
   Recipient: {
     chat: async (recipient, args, { injector }) => injector.get(RecipientProvider).getRecipientChat(recipient),
   },
-} as IResolvers;
+} as unknown as IResolvers;

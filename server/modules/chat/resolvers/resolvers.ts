@@ -11,11 +11,10 @@ export default {
   },
   Mutation: {
     addChat: (obj, { userId }, { injector }) => injector.get(ChatProvider).addChat(userId),
-    addGroup: (obj, { userIds, groupName, groupPicture }, { injector }) =>
-      injector.get(ChatProvider).addGroup(userIds, {
-        groupName: groupName || '',
-        groupPicture: groupPicture || '',
-      }),
+    addGroup: (obj, { userIds, groupName, groupPicture }, { injector }) => injector.get(ChatProvider).addGroup(userIds, {
+      groupName: groupName || '',
+      groupPicture: groupPicture || '',
+    }),
     updateGroup: (obj, { chatId, groupName, groupPicture }, { injector }) => injector.get(ChatProvider).updateGroup(chatId, {
       groupName: groupName || '',
       groupPicture: groupPicture || '',
@@ -28,16 +27,16 @@ export default {
   },
   Subscription: {
     chatAdded: {
-      subscribe: withFilter((root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('chatAdded'),
-        (data: { chatAdded: Chat, creatorId: number }, variables, { injector }: ModuleContext) =>
-          data && injector.get(ChatProvider).filterChatAddedOrUpdated(data.chatAdded, data.creatorId)
-      ),
+      subscribe: withFilter((root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('chatAdded'), (data: {
+        chatAdded: Chat;
+        creatorId: number;
+      }, variables, { injector }: ModuleContext) => data && injector.get(ChatProvider).filterChatAddedOrUpdated(data.chatAdded, data.creatorId)),
     },
     chatUpdated: {
-      subscribe: withFilter((root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('chatUpdated'),
-        (data: { chatUpdated: Chat, updaterId: number }, variables, { injector }: ModuleContext) =>
-          data && injector.get(ChatProvider).filterChatAddedOrUpdated(data.chatUpdated, data.updaterId)
-      ),
+      subscribe: withFilter((root, args, { injector }: ModuleContext) => injector.get(PubSub).asyncIterator('chatUpdated'), (data: {
+        chatUpdated: Chat;
+        updaterId: number;
+      }, variables, { injector }: ModuleContext) => data && injector.get(ChatProvider).filterChatAddedOrUpdated(data.chatUpdated, data.updaterId)),
     },
   },
   Chat: {
@@ -50,4 +49,4 @@ export default {
     owner: (chat, args, { injector }) => injector.get(ChatProvider).getChatOwner(chat),
     isGroup: (chat, args, { injector }) => injector.get(ChatProvider).isChatGroup(chat),
   },
-} as IResolvers;
+} as unknown as IResolvers;
